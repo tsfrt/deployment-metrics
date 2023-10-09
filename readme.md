@@ -70,7 +70,8 @@ imgpkg push -b <your registry>/metrics/dora-metrics:1.0.3 -f metrics-package/
 
 verify that your imgpkg bundles are present in your registry
 
-Update the package repo to use the image reference that you defined above:
+Modify the package repo to use the image reference that you defined above:
+
 ```yaml
 
 ---
@@ -112,7 +113,7 @@ kbld -f packages --imgpkg-lock-output metrics-package-repo/.imgpkg/images.yml
 
 
 ```
-Apply the package repository to your cluster
+Modify the image reference and apply the package repository to your cluster
 
 ```yaml
 
