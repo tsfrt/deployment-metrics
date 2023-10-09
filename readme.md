@@ -62,7 +62,7 @@ Preparing your deployment
 #from within root of project
 #you may need to auth to your registy, etc before running
 #optionally append --registry-ca-cert-path <your registry CA> for self-signed registry certs
-#In this example, there is a `metrics`` project created in harbor.  Alter your tag based on your registry solution
+#In this example, there is a `metrics` project created in harbor.  Alter your tag based on your registry solution
 
 imgpkg push -b harbor.build.h2o-2-18171.h2o.vmware.com/metrics/dora-metrics:1.0.3 -f metrics-package/
 
