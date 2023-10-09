@@ -10,7 +10,7 @@ Tanzu Observability/Monitoring Installed
 
 [Docs](https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid/2.2/using-tkg-22/workload-packages-monitoring.html)
 
-Configure monitoiring and metrics packages as documented.  The following examples are minimally configured for ingress:
+Configure monitoiring and metrics packages as documented.  The following examples are minimally configured for ingress (check docs for the latest version and config of packages):
 
 ```yaml
 
