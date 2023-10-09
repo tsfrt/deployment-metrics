@@ -12,6 +12,7 @@ A basic observability solution for tracking application deployment frequency tha
 
 Configure monitoiring and metrics packages as documented.  The following examples are minimally configured for ingress (check docs for the latest version and config of packages):
 
+prometheus.yaml
 ```yaml
 
 ingress:
@@ -22,6 +23,7 @@ ingress:
 
 ```
 
+grafana.yaml
 ```yaml
 
 grafana:
