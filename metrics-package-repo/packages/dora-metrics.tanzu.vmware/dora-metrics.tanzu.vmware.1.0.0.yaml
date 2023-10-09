@@ -1,0 +1,26 @@
+---
+apiVersion: data.packaging.carvel.dev/v1alpha1
+kind: Package
+metadata:
+  name: dora-metrics.tanzu.vmware.1.0.0
+spec:
+  refName: dora-metrics.tanzu.vmware
+  version: 1.0.0
+  releaseNotes: |
+        Initial release of the simple app package
+  template:
+    spec:
+      fetch:
+      - imgpkgBundle:
+          image: harbor.build.h2o-2-18171.h2o.vmware.com/metrics/dora-metrics:1.0.2
+      template:
+      - ytt:
+          paths:
+          - "keptn/"
+          - "jaegar/"
+      - kbld:
+          paths:
+          - ".imgpkg/images.yml"
+          - "-"
+      deploy:
+      - kapp: {}

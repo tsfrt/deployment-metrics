@@ -1,0 +1,46 @@
+---
+apiVersion: imgpkg.carvel.dev/v1alpha1
+images:
+- annotations:
+    kbld.carvel.dev/id: gcr.io/kubebuilder/kube-rbac-proxy:v0.13.0
+    kbld.carvel.dev/origins: |
+      - resolved:
+          tag: v0.13.0
+          url: gcr.io/kubebuilder/kube-rbac-proxy:v0.13.0
+  image: gcr.io/kubebuilder/kube-rbac-proxy@sha256:d99a8d144816b951a67648c12c0b988936ccd25cf3754f3cd85ab8c01592248f
+- annotations:
+    kbld.carvel.dev/id: ghcr.io/keptn/certificate-operator:v1.1.0
+    kbld.carvel.dev/origins: |
+      - resolved:
+          tag: v1.1.0
+          url: ghcr.io/keptn/certificate-operator:v1.1.0
+  image: ghcr.io/keptn/certificate-operator@sha256:8fdd311a6d3320529868d7e95eb2d1c9fee04a89ffdf0002126fd8a0b390c90b
+- annotations:
+    kbld.carvel.dev/id: ghcr.io/keptn/lifecycle-operator:v0.8.2
+    kbld.carvel.dev/origins: |
+      - resolved:
+          tag: v0.8.2
+          url: ghcr.io/keptn/lifecycle-operator:v0.8.2
+  image: ghcr.io/keptn/lifecycle-operator@sha256:487bfc37c4b487b235a03d30c66fbd8d2a41aa0b6e40dc6a9ad395f1b3c71f32
+- annotations:
+    kbld.carvel.dev/id: ghcr.io/keptn/metrics-operator:v0.8.2
+    kbld.carvel.dev/origins: |
+      - resolved:
+          tag: v0.8.2
+          url: ghcr.io/keptn/metrics-operator:v0.8.2
+  image: ghcr.io/keptn/metrics-operator@sha256:acf22310e9dd86fb1a6503a883df9540145f6d6a613c70bb1a53d1344144f634
+- annotations:
+    kbld.carvel.dev/id: ghcr.io/keptn/scheduler:v0.8.2
+    kbld.carvel.dev/origins: |
+      - resolved:
+          tag: v0.8.2
+          url: ghcr.io/keptn/scheduler:v0.8.2
+  image: ghcr.io/keptn/scheduler@sha256:0f7d277bb2b222c397561fb522abad8b8158a5df3b0b3d9dea5805b90592e6f3
+- annotations:
+    kbld.carvel.dev/id: quay.io/jaegertracing/jaeger-operator:1.46.0
+    kbld.carvel.dev/origins: |
+      - resolved:
+          tag: 1.46.0
+          url: quay.io/jaegertracing/jaeger-operator:1.46.0
+  image: quay.io/jaegertracing/jaeger-operator@sha256:5e61793be4873321517bdcc407dbef9a6060f3fcb3843bc56a4690be7a333a5e
+kind: ImagesLock
