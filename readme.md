@@ -1,6 +1,6 @@
 ## Application Deployment Metrics
 
-A basic observability solution for tracking application deployments
+A basic observability solution for tracking application deployment frequency that utilizes the Tanzu supported packages for Grafana and Prometheus.  This solution leverages the keptn-lifecycle-toolkit to collect metrics on the frequency, longevity, and reliability of native kubernetes deployments.
 
 ###Prerequisites
 
@@ -49,3 +49,22 @@ tanzu package install grafana \
 --namespace tkg-system
 
 ```
+
+### Life Cycle Toolkit install
+
+Preparing your deployment
+
+```bash
+
+#from within root of project
+#you may need to auth to your registy, etc before running
+#optionally append --registry-ca-cert-path <your registry CA> for self-signed registry certs
+#In this example, there is a `metrics`` project created in harbor.  Alter your tag based on your registry solution
+
+imgpkg push -b harbor.build.h2o-2-18171.h2o.vmware.com/metrics/dora-metrics:1.0.3 -f metrics-package/
+
+imgpkg push -b  harbor.build.h2o-2-18171.h2o.vmware.com/metrics/dora-package-repo:1.0.0 -f metrics-package-repo/ 
+
+```
+
+very that your imgpkg bundles are present in your registry
