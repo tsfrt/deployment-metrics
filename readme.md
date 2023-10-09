@@ -70,4 +70,4 @@ imgpkg push -b  harbor.build.h2o-2-18171.h2o.vmware.com/metrics/dora-package-rep
 
 ```
 
-very that your imgpkg bundles are present in your registry
+verify that your imgpkg bundles are present in your registry
