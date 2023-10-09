@@ -6,7 +6,7 @@ A basic observability solution for tracking application deployment frequency tha
 
 - Cert Manager installed
 
-Tanzu Observability/Monitoring Installed
+- Tanzu Observability/Monitoring Installed (details below)
 
 [Docs](https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid/2.2/using-tkg-22/workload-packages-monitoring.html)
 
