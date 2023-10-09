@@ -4,6 +4,8 @@ A basic observability solution for tracking application deployment frequency tha
 
 ### Prerequisites
 
+- Carvel CLI tools installed (imgpkg, kbld)
+
 - Cert Manager installed
 
 - Tanzu Observability/Monitoring Installed (details below)
