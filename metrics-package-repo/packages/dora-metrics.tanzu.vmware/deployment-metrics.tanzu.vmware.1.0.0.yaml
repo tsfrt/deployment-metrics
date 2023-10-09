@@ -2,9 +2,9 @@
 apiVersion: data.packaging.carvel.dev/v1alpha1
 kind: Package
 metadata:
-  name: dora-metrics.tanzu.vmware.1.0.0
+  name: deployment-metrics.tanzu.vmware.1.0.0
 spec:
-  refName: dora-metrics.tanzu.vmware
+  refName: deployment-metrics.tanzu.vmware
   version: 1.0.0
   releaseNotes: |
         Initial release of the simple app package

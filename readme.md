@@ -66,35 +66,84 @@ Preparing your deployment
 
 imgpkg push -b <your registry>/metrics/dora-metrics:1.0.3 -f metrics-package/
 
-imgpkg push -b  <your registry>/metrics/dora-package-repo:1.0.0 -f metrics-package-repo/ 
-
 ```
 
 verify that your imgpkg bundles are present in your registry
 
-Install the package repo in your cluster:
+Update the package repo to use the image reference that you defined above:
+```yaml
+
+---
+apiVersion: data.packaging.carvel.dev/v1alpha1
+kind: Package
+metadata:
+  name: deployment-metrics.tanzu.vmware.1.0.0
+spec:
+  refName: deployment-metrics.tanzu.vmware
+  version: 1.0.0
+  releaseNotes: |
+        Initial release of the simple app package
+  template:
+    spec:
+      fetch:
+      - imgpkgBundle:
+          image: harbor.build.h2o-2-18171.h2o.vmware.com/metrics/dora-metrics:1.0.2 #<--- update this
+      template:
+      - ytt:
+          paths:
+          - "keptn/"
+          - "jaegar/"
+      - kbld:
+          paths:
+          - ".imgpkg/images.yml"
+          - "-"
+      deploy:
+      - kapp: {}
+
+```
+
+Run kbld to update the images.yml for package
+
+```bash
+
+#for self signed registry certs append --registry-ca-cert-path <your ca cert>
+
+kbld -f packages --imgpkg-lock-output metrics-package-repo/.imgpkg/images.yml  
+
+
+```
+Apply the package repository to your cluster
+
 ```yaml
 
 ---
 apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageRepository
 metadata:
-  name: deployment-metrics-package-repo
+  name: dora-package-repo
 spec:
   fetch:
     imgpkgBundle:
-      image: <your registry>/metrics/dora-package-repo:1.0.0
+      image: harbor.build.h2o-2-18171.h2o.vmware.com/metrics/dora-package-repo:1.0.0 #<--- update this
 
 ```
 
-Install the package in your cluster:
+Create the life-cycle metrics namespace
+
+```bash
+
+kubectl create ns lifecycle-metrics
+
+```
+
+Apply the package install in your cluster:
 
 ```yaml
 
 apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageInstall
 metadata:
-  name: metrics-install
+  name: deployment-metrics-install
 spec:
   serviceAccountName: default
   packageRef:

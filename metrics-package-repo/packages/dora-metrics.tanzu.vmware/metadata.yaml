@@ -2,7 +2,7 @@ apiVersion: data.packaging.carvel.dev/v1alpha1
 kind: PackageMetadata
 metadata:
   # This will be the name of our package
-  name: dora-metrics.tanzu.vmware
+  name: deployment-metrics.tanzu.vmware
 spec:
   displayName: "DORA Metrics"
   longDescription: "Package deployment for keptn lifecycle toolkit"
