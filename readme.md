@@ -137,7 +137,7 @@ kubectl create ns lifecycle-metrics
 
 ```
 
-Apply the package install in your cluster:
+Apply the package install in your cluster
 
 ```yaml
 
