@@ -64,10 +64,42 @@ Preparing your deployment
 #optionally append --registry-ca-cert-path <your registry CA> for self-signed registry certs
 #In this example, there is a `metrics` project created in harbor.  Alter your tag based on your registry solution
 
-imgpkg push -b harbor.build.h2o-2-18171.h2o.vmware.com/metrics/dora-metrics:1.0.3 -f metrics-package/
+imgpkg push -b <your registry>/metrics/dora-metrics:1.0.3 -f metrics-package/
 
-imgpkg push -b  harbor.build.h2o-2-18171.h2o.vmware.com/metrics/dora-package-repo:1.0.0 -f metrics-package-repo/ 
+imgpkg push -b  <your registry>/metrics/dora-package-repo:1.0.0 -f metrics-package-repo/ 
 
 ```
 
 verify that your imgpkg bundles are present in your registry
+
+Install the package repo in your cluster:
+```yaml
+
+---
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageRepository
+metadata:
+  name: deployment-metrics-package-repo
+spec:
+  fetch:
+    imgpkgBundle:
+      image: <your registry>/metrics/dora-package-repo:1.0.0
+
+```
+
+Install the package in your cluster:
+
+```yaml
+
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  name: metrics-install
+spec:
+  serviceAccountName: default
+  packageRef:
+    refName: deployment-metrics.tanzu.vmware
+    versionSelection:
+      constraints: 1.0.0
+
+```
