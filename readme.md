@@ -121,11 +121,11 @@ Modify the image reference and apply the package repository to your cluster
 apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageRepository
 metadata:
-  name: dora-package-repo
+  name deployment-metrics-package-repo
 spec:
   fetch:
     imgpkgBundle:
-      image: harbor.build.h2o-2-18171.h2o.vmware.com/metrics/dora-package-repo:1.0.0 #<--- update this
+      image: harbor.build.h2o-2-18171.h2o.vmware.com/metrics/deployment-metrics-package-repo:1.0.0 #<--- update this
 
 ```
 
