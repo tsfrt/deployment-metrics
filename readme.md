@@ -2,7 +2,7 @@
 
 A basic observability solution for tracking application deployment frequency that utilizes the Tanzu supported packages for Grafana and Prometheus.  This solution leverages the keptn-lifecycle-toolkit to collect metrics on the frequency, longevity, and reliability of native kubernetes deployments.
 
-###Prerequisites
+### Prerequisites
 
 - Cert Manager installed
 
