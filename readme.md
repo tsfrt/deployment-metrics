@@ -141,27 +141,11 @@ spec:
 
 ```
 
-Create the life-cycle metrics namespace
-
-```bash
-
-kubectl create ns lifecycle-metrics
-
-```
 
 Apply the package install in your cluster
 
 ```yaml
 
-apiVersion: packaging.carvel.dev/v1alpha1
-kind: PackageInstall
-metadata:
-  name: deployment-metrics-install
-spec:
-  serviceAccountName: default
-  packageRef:
-    refName: deployment-metrics.tanzu.vmware
-    versionSelection:
-      constraints: 1.0.0
+kubectl apply -f install/install.yaml
 
 ```
