@@ -149,3 +149,33 @@ Apply the package install in your cluster
 kubectl apply -f install/install.yaml
 
 ```
+
+### Do Something Useful with This
+
+To begin collecting metrics on your deployments
+
+
+Annotate monitored namespaces as follows:
+
+```yaml
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: name
+  annotations:
+    keptn.sh/lifecycle-toolkit: "enabled"
+
+
+```
+
+Annotate your deployments with the following:
+
+```yaml
+
+app.kubernetes.io/name: myAwesomeWorkload
+app.kubernetes.io/version: myAwesomeWorkloadVersion
+app.kubernetes.io/part-of: myAwesomeAppName
+
+```
+
