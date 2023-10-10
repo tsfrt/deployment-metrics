@@ -8,23 +8,17 @@ metadata:
   namespace: tanzu-system-dashboards
 data:
   datasources.yaml: |-
-    {
-        "apiVersion": 1,
-        "datasources": [
-            {
-                "orgId":1,
-                "name":"Jaeger",
-                "type":"jaeger",
-                "typeName":"Jaeger",
-                "typeLogoUrl":"public/app/plugins/datasource/jaeger/img/jaeger_logo.svg",
-                "access":"proxy",
-                "url":"http://jaeger-query.lifecycle-metrics.svc.cluster.local:16686",
-                "user":"",
-                "database":"",
-                "basicAuth":false,
-                "isDefault":false,
-                "jsonData":{"spanBar":{"type":"None"}},
-                "readOnly":false
-            }
-        ]
-    }    
+    apiVersion: 1
+    datasources: 
+    - orgId: 1
+      name: Jaeger
+      type: jaeger
+      typeName: Jaeger
+      typeLogoUrl: public/app/plugins/datasource/jaeger/img/jaeger_logo.svg
+      access: proxy
+      url: http://jaeger-query.lifecycle-metrics.svc.cluster.local:16686 
+      basicAuth: false
+      isDefault: false
+      jsonData: {"spanBar":{"type":"None"}},
+      readOnly: false
+        
