@@ -2,10 +2,10 @@
 apiVersion: imgpkg.carvel.dev/v1alpha1
 images:
 - annotations:
-    kbld.carvel.dev/id: harbor.build.h2o-2-18171.h2o.vmware.com/metrics/dora-metrics:1.0.2
+    kbld.carvel.dev/id: harbor.build.h2o-2-18171.h2o.vmware.com/metrics/deployment-metrics:1.0.4
     kbld.carvel.dev/origins: |
       - resolved:
-          tag: 1.0.2
-          url: harbor.build.h2o-2-18171.h2o.vmware.com/metrics/dora-metrics:1.0.2
-  image: harbor.build.h2o-2-18171.h2o.vmware.com/metrics/dora-metrics@sha256:91ff9ee62f6fc2e118e97f84efd040b2937e4b59d02bd13ea41dd6f3b72f790e
+          tag: 1.0.4
+          url: harbor.build.h2o-2-18171.h2o.vmware.com/metrics/deployment-metrics:1.0.4
+  image: harbor.build.h2o-2-18171.h2o.vmware.com/metrics/deployment-metrics@sha256:e23e4864ac52f7aa8830a34adae727b14948faa4c793cfa6feacfd644e8a7c7d
 kind: ImagesLock

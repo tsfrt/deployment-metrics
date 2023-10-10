@@ -66,13 +66,13 @@ Preparing your deployment
 #optionally append --registry-ca-cert-path <your registry CA> for self-signed registry certs
 #In this example, there is a `metrics` project created in harbor.  Alter your tag based on your registry solution
 
-imgpkg push -b <your registry>/metrics/dora-metrics:1.0.3 -f metrics-package/
+imgpkg push -b <your registry>/metrics/deployment-metrics:1.0.0 -f metrics-package/
 
 ```
 
 verify that your imgpkg bundles are present in your registry
 
-Modify the package repo to use the image reference that you defined above:
+Modify the package repo (metrics-package-repo/packages/dora-metrics.tanzu.vmware/deployment-metrics.tanzu.vmware.1.0.0.yaml) to use the image reference that you defined above:
 
 ```yaml
 
@@ -90,7 +90,7 @@ spec:
     spec:
       fetch:
       - imgpkgBundle:
-          image: harbor.build.h2o-2-18171.h2o.vmware.com/metrics/dora-metrics:1.0.2 #<--- update this
+          image: harbor.build.h2o-2-18171.h2o.vmware.com/metrics/deployment-metrics:1.0.0 #<--- update this
       template:
       - ytt:
           paths:
@@ -111,11 +111,21 @@ Run kbld to update the images.yml for package
 
 #for self signed registry certs append --registry-ca-cert-path <your ca cert>
 
-kbld -f packages --imgpkg-lock-output metrics-package-repo/.imgpkg/images.yml  
-
+kbld -f metrics-package-repo --imgpkg-lock-output metrics-package-repo/.imgpkg/images.yml
 
 ```
-Modify the image reference and apply the package repository to your cluster
+
+Push the repo to your registry
+
+```bash
+
+imgpkg push -b  <your registry>/metrics/deployment-metrics-package-repo:1.0.0 -f metrics-package-repo/
+
+```
+
+
+
+Modify the image reference and apply the package repository to your cluster (install/install.yaml)
 
 ```yaml
 

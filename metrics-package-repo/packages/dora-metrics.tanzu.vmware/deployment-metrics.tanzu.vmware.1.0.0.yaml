@@ -7,17 +7,18 @@ spec:
   refName: deployment-metrics.tanzu.vmware
   version: 1.0.0
   releaseNotes: |
-        Initial release of the simple app package
+        Initial release of the deployment metrics package
   template:
     spec:
       fetch:
       - imgpkgBundle:
-          image: harbor.build.h2o-2-18171.h2o.vmware.com/metrics/dora-metrics:1.0.2
+          image: harbor.build.h2o-2-18171.h2o.vmware.com/metrics/deployment-metrics:1.0.4
       template:
       - ytt:
           paths:
           - "keptn/"
           - "jaegar/"
+          - "grafana/"
       - kbld:
           paths:
           - ".imgpkg/images.yml"

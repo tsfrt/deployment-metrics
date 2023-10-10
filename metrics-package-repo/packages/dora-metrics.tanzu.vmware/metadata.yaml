@@ -4,7 +4,7 @@ metadata:
   # This will be the name of our package
   name: deployment-metrics.tanzu.vmware
 spec:
-  displayName: "DORA Metrics"
+  displayName: "Deployment Metrics"
   longDescription: "Package deployment for keptn lifecycle toolkit"
   shortDescription: "keptn lifecycle toolkit"
   categories:
