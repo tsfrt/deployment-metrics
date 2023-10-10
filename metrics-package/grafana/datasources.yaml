@@ -1,12 +1,12 @@
 apiVersion: v1
-kind: Secret
-type: Opaque
+kind: ConfigMap
 metadata:
   labels:
-    grafana_datasource: "1"
+    grafana-datasource: "1"
+    app.kubernetes.io/name: grafana 
   name: grafana-datasources-jaegar
   namespace: tanzu-system-dashboards
-stringData:
+data:
   datasources.yaml: |-
     {
         "apiVersion": 1,
