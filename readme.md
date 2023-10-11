@@ -144,7 +144,7 @@ Modify the image reference and apply the package repository to your cluster (ins
 apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageRepository
 metadata:
-  name deployment-metrics-package-repo
+  name: deployment-metrics-package-repo
 spec:
   fetch:
     imgpkgBundle:
