@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   labels:
     grafana-datasource: "1"
-  name: grafana-datasources
+  name: jaeger-datasource
   namespace: tanzu-system-dashboards
 data:
   jaeger-datasources.yaml: |-

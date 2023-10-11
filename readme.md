@@ -26,12 +26,23 @@ ingress:
 ```
 
 grafana.yaml
+(there seems to be a bug with the default prom url in the current package so I am definig the datasource here manually too)
 ```yaml
 
 grafana:
   secret:
     admin_user: YWRtaW4=
     admin_password: YWRtaW4=
+  config:
+    datasource_yaml: |-
+      apiVersion: 1
+      datasources:
+      - orgId: 1
+        name: Prometheus
+        type: prometheus
+        url: http://prometheus-server.tanzu-system-monitoring.svc.cluster.local
+        access: proxy
+        isDefault: true
 ingress:
   enabled: true
   virtual_host_fqdn: grafana.dora.h2o-2-18171.h2o.vmware.com
@@ -50,7 +61,7 @@ tanzu package install prometheus \
 tanzu package install grafana \
 --package grafana.tanzu.vmware.com \
 --version 9.5.1+vmware.2-tkg.1 \
---values-file grafana.yaml \
+--values-file graf2.yaml \
 --namespace tkg-system
 
 ```
