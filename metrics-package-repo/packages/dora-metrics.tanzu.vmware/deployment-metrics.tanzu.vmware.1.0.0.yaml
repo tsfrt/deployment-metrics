@@ -12,7 +12,7 @@ spec:
     spec:
       fetch:
       - imgpkgBundle:
-          image: harbor.build.h2o-2-18171.h2o.vmware.com/metrics/deployment-metrics:1.0.10
+          image: harbor.build.h2o-2-18171.h2o.vmware.com/metrics/deployment-metrics:1.0.12
       template:
       - ytt:
           paths:
