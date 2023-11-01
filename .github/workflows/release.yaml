@@ -18,7 +18,7 @@ jobs:
         run: |
           imgpkg push -b tseufert1/deployment-metrics:latest -f metrics-package/ --registry-password ${{ secrets.DOCKERHUB_TOKEN }} --registry-username ${{ secrets.DOCKERHUB_USERNAME }}
       - name: lock-images
-        run: kbld -f metrics-package-repo --imgpkg-lock-output ./metrics-package-repo/.imgpkg/images.yml
+        run: ytt -f metrics-package-repo | kbld -f- --imgpkg-lock-output ./metrics-package-repo/.imgpkg/images.yml
       - name: push-repo-bundle
         run: |
           imgpkg push -b tseufert1/deployment-metrics-repo:${{ github.sha }} -f ./metrics-package-repo/ --registry-password ${{ secrets.DOCKERHUB_TOKEN }} --registry-username ${{ secrets.DOCKERHUB_USERNAME }}
