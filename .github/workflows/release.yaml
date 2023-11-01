@@ -23,7 +23,7 @@ jobs:
         run: |
           imgpkg push -b tseufert1/deployment-metrics-repo:${{ github.sha }} -f ./metrics-package-repo/ --registry-password ${{ secrets.DOCKERHUB_TOKEN }} --registry-username ${{ secrets.DOCKERHUB_USERNAME }}
       - name: bundle-release
-        run: imgpkg copy -b tseufert1/deployment-metrics-repo --to-tar ./deployment-metrics-repo-${{ github.sha }}.tar
+        run: imgpkg copy -b tseufert1/deployment-metrics-repo:${{ github.sha }} --to-tar ./deployment-metrics-repo-${{ github.sha }}.tar
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
