@@ -15,9 +15,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: lock-images
-        run: kbld -f metrics-package-repo --imgpkg-lock-output metrics-package-repo/.imgpkg/images.yml
+        run: kbld -f metrics-package-repo --imgpkg-lock-output ./metrics-package-repo/.imgpkg/images.yml
       - name: push-bundle
-        run: imgpkg push -b tseufert1/deployment-metrics:${{ github.sha }} -f metrics-package-repo/ --registry-password ${{ secrets.DOCKERHUB_TOKEN }} --registry-username ${{ secrets.DOCKERHUB_USERNAME }}
+        run: imgpkg push -b tseufert1/deployment-metrics:${{ github.sha }} -f ./metrics-package-repo/ --registry-password ${{ secrets.DOCKERHUB_TOKEN }} --registry-username ${{ secrets.DOCKERHUB_USERNAME }}
       - name: bundle-release
         run: imgpkg copy -b tseufert1/deployment-metrics:${{ github.sha }} --to-tar ./deployment-metrics-${{ github.sha }}.tar
       - name: Create Release
