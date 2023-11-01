@@ -1,0 +1,40 @@
+on:
+  push:
+    tags:
+    - 'v*'
+   
+name: Create Metrics Release
+
+jobs:
+  build:
+    name: Create Metrics Release
+    runs-on: ghcr.io/vmware-tanzu/carvel-docker-image:latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: lock-images
+        run: kbld -f metrics-package-repo --imgpkg-lock-output metrics-package-repo/.imgpkg/images.yml
+      - name: push-bundle
+        run: imgpkg push -b tseufert1/deployment-metrics:${{ github.ref }} -f metrics-package-repo/ --registry-password ${{ secrets.DOCKERHUB_TOKEN }} --registry-username ${{ secrets.DOCKERHUB_USERNAME }}
+      - name: bundle-release
+        run: imgpkg pull -b tseufert1/deployment-metrics:${{ github.ref }} --output deployment-metrics-${{ github.ref }}.tar
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: ./deployment-metrics-${{ github.ref }}.tar
+          asset_name: deployment-metrics-${{ github.ref }}.tar
+          asset_content_type: application/tar
