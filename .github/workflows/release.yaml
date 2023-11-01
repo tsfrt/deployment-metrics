@@ -14,12 +14,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: push-package
+        run: |
+          imgpkg push -b tseufert1/deployment-metrics:${{ github.sha }} -f metrics-package/ --registry-password ${{ secrets.DOCKERHUB_TOKEN }} --registry-username ${{ secrets.DOCKERHUB_USERNAME }}
+          imgpkg copy -b tseufert1/deployment-metrics:${{ github.sha }}  --to-repo tseufert1/deployment-metrics:latest
       - name: lock-images
         run: kbld -f metrics-package-repo --imgpkg-lock-output ./metrics-package-repo/.imgpkg/images.yml
-      - name: push-bundle
-        run: imgpkg push -b tseufert1/deployment-metrics:${{ github.sha }} -f ./metrics-package-repo/ --registry-password ${{ secrets.DOCKERHUB_TOKEN }} --registry-username ${{ secrets.DOCKERHUB_USERNAME }}
+      - name: push-repo-bundle
+        run: |
+          imgpkg push -b tseufert1/deployment-metrics-repo:${{ github.sha }} -f ./metrics-package-repo/ --registry-password ${{ secrets.DOCKERHUB_TOKEN }} --registry-username ${{ secrets.DOCKERHUB_USERNAME }}
+          imgpkg copy -b tseufert1/deployment-metrics-repo:${{ github.sha }}  --to-repo tseufert1/deployment-metrics-repo:latest
       - name: bundle-release
-        run: imgpkg copy -b tseufert1/deployment-metrics:${{ github.sha }} --to-tar ./deployment-metrics-${{ github.sha }}.tar
+        run: imgpkg copy -b tseufert1/deployment-metrics-repo:${{ github.sha }} --to-tar ./deployment-metrics-${{ github.sha }}.tar
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
