@@ -1,4 +1,4 @@
-#@data/values-schema
+#@ load("@ytt:data", "data")
 ---
 apiVersion: data.packaging.carvel.dev/v1alpha1
 kind: Package
@@ -13,8 +13,7 @@ spec:
     spec:
       fetch:
       - imgpkgBundle:
-          #@schema/default tseufert1/deployment-metrics:latest
-          image: ""
+          image: #@ data.values.package_reference
       template:
       - ytt:
           paths:
