@@ -19,7 +19,9 @@ jobs:
       - name: push-bundle
         run: imgpkg push -b tseufert1/deployment-metrics:${{ github.sha }} -f metrics-package-repo/ --registry-password ${{ secrets.DOCKERHUB_TOKEN }} --registry-username ${{ secrets.DOCKERHUB_USERNAME }}
       - name: bundle-release
-        run: imgpkg pull -b tseufert1/deployment-metrics:${{ github.sha }} --output /tmp/deployment-metrics-${{ github.sha }}.tar
+        run: imgpkg pull -b tseufert1/deployment-metrics:${{ github.sha }} --output ./deployment-metrics-${{ github.sha }}.tar
+      - name: Display structure of downloaded files
+        run: ls -R
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -37,6 +39,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} 
-          asset_path: /tmp/deployment-metrics-${{ github.sha }}.tar
+          asset_path: ./deployment-metrics-${{ github.sha }}.tar
           asset_name: deployment-metrics-${{ github.sha }}.tar
           asset_content_type: application/tar
