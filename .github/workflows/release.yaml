@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
       - name: push-package
         run: |
-          ytt -f deployment-metrics.tanzu.vmware.x.y.z.yaml --data-value version=1.0.0 --data-value package_reference="tseufert1/deployment-metrics:${{ github.sha }}" > metrics-package-repo/packages/dora-metrics.tanzu.vmware/deployment-metrics.tanzu.vmware.1.0.0.yaml
+          ytt -f deployment-metrics.tanzu.vmware.xyz.yaml --data-value version=1.0.0 --data-value package_reference="tseufert1/deployment-metrics:${{ github.sha }}" > metrics-package-repo/packages/dora-metrics.tanzu.vmware/deployment-metrics.tanzu.vmware.1.0.0.yaml
           imgpkg push -b tseufert1/deployment-metrics:${{ github.sha }} -f metrics-package/ --registry-password ${{ secrets.DOCKERHUB_TOKEN }} --registry-username ${{ secrets.DOCKERHUB_USERNAME }}
       - name: lock-images
         run: kbld -f metrics-package-repo -f metrics-package --imgpkg-lock-output ./metrics-package-repo/.imgpkg/images.yml
