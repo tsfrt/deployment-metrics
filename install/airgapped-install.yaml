@@ -28,6 +28,16 @@ roleRef:
   name: default-ns-role
 ---
 apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageRepository
+metadata:
+  name: deployment-metrics-package-repo
+  namespace: tkg-system
+spec:
+  fetch:
+    imgpkgBundle:
+      image: harbor.build.h2o-2-18171.h2o.vmware.com/library/metrics:72636ad71f8ad8e1aceb9c82677bff6745deb847
+---
+apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageInstall
 metadata:
   name: metrics
