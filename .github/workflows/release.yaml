@@ -1,8 +1,8 @@
 on:
   push:
     tags:
-    - 'v*'
-   
+      - "v*"
+
 name: Create Metrics Release
 
 jobs:
@@ -16,9 +16,10 @@ jobs:
         uses: actions/checkout@v2
       - name: push-package
         run: |
-          ytt -f metrics-package-repo --data-value package_reference="tseufert1/deployment-metrics:${{ github.sha }}" | imgpkg push -b tseufert1/deployment-metrics:${{ github.sha }} -f- --registry-password ${{ secrets.DOCKERHUB_TOKEN }} --registry-username ${{ secrets.DOCKERHUB_USERNAME }}
+          ytt -f metrics-package-repo/packages/dora-metrics.tanzu.vmware/deployment-metrics.tanzu.vmware.1.0.0.yaml --data-value package_reference="tseufert1/deployment-metrics:${{ github.sha }}" > metrics-package-repo/packages/dora-metrics.tanzu.vmware/deployment-metrics.tanzu.vmware.1.0.0.yaml
+          imgpkg push -b tseufert1/deployment-metrics:${{ github.sha }} -f metrics-package/ --registry-password ${{ secrets.DOCKERHUB_TOKEN }} --registry-username ${{ secrets.DOCKERHUB_USERNAME }}
       - name: lock-images
-        run:  ytt -f metrics-package-repo --data-value package_reference="tseufert1/deployment-metrics:${{ github.sha }}" |  kbld -f- --imgpkg-lock-output ./metrics-package-repo/.imgpkg/images.yml
+        run: kbld -f . --imgpkg-lock-output ./metrics-package-repo/.imgpkg/images.yml
       - name: push-repo-bundle
         run: |
           imgpkg push -b tseufert1/deployment-metrics-repo:${{ github.sha }} -f ./metrics-package-repo/ --registry-password ${{ secrets.DOCKERHUB_TOKEN }} --registry-username ${{ secrets.DOCKERHUB_USERNAME }}
@@ -35,12 +36,12 @@ jobs:
           draft: false
           prerelease: false
       - name: Upload Release Asset
-        id: upload-release-asset 
+        id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./deployment-metrics-repo-${{ github.sha }}.tar
           asset_name: deployment-metrics-repo-${{ github.sha }}.tar
           asset_content_type: application/tar
