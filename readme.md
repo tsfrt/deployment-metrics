@@ -117,7 +117,7 @@ spec:
 
 * Install the package
 
-If you are airgapped include the overlay annotation in the PackageInstall and apply the overlay/data secret allong with the packageinstall.  
+If you are airgapped include the overlay annotation in the PackageInstall and apply the overlay/data secret along with the packageinstall.  
 If you have internet connectivity remove the annotation from the package install and skip applying the secrets.
 
 ```yaml
