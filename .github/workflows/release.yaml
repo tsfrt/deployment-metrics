@@ -19,7 +19,7 @@ jobs:
           ytt -f metrics-package-repo/packages/dora-metrics.tanzu.vmware/deployment-metrics.tanzu.vmware.1.0.0.yaml --data-value package_reference="tseufert1/deployment-metrics:${{ github.sha }}" > metrics-package-repo/packages/dora-metrics.tanzu.vmware/deployment-metrics.tanzu.vmware.1.0.0.yaml
           imgpkg push -b tseufert1/deployment-metrics:${{ github.sha }} -f metrics-package/ --registry-password ${{ secrets.DOCKERHUB_TOKEN }} --registry-username ${{ secrets.DOCKERHUB_USERNAME }}
       - name: lock-images
-        run: kbld -f . --imgpkg-lock-output ./metrics-package-repo/.imgpkg/images.yml
+        run: kbld -f metrics-package-repo -f metrics-package --imgpkg-lock-output ./metrics-package-repo/.imgpkg/images.yml
       - name: push-repo-bundle
         run: |
           imgpkg push -b tseufert1/deployment-metrics-repo:${{ github.sha }} -f ./metrics-package-repo/ --registry-password ${{ secrets.DOCKERHUB_TOKEN }} --registry-username ${{ secrets.DOCKERHUB_USERNAME }}
