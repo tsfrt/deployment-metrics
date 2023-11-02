@@ -6,7 +6,7 @@ metadata:
   name: deployment-metrics.tanzu.vmware.1.0.0
 spec:
   refName: deployment-metrics.tanzu.vmware
-  version: 1.0.0
+  version: #@ data.values.version
   releaseNotes: |
         Initial release of the deployment metrics package
   template:
