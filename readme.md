@@ -68,96 +68,105 @@ tanzu package install grafana \
 
 ### Life Cycle Toolkit install
 
-Preparing your deployment
+* Download the latest release tar
+
+* Relocate the bundled release tar (this contains everything)
 
 ```bash
 
-#from within root of project
-#you may need to auth to your registy, etc before running
-#optionally append --registry-ca-cert-path <your registry CA> for self-signed registry certs
-#In this example, there is a `metrics` project created in harbor.  Alter your tag based on your registry solution
-
-imgpkg push -b <your registry>/metrics/deployment-metrics:1.0.0 -f metrics-package/
+imgpkg copy --tar ~/Downloads/deployment-metrics-repo-72636ad71f8ad8e1aceb9c82677bff6745deb847.tar --to-repo <your registry>/deployment-metrics-repo --registry-ca-cert-path <add cert for self signed, if needed>
 
 ```
 
-verify that your imgpkg bundles are present in your registry
+* If you are airgapped, you will need to identify the jaegertracing/all-in-one image in the bundle and specify it as a value so the operator can deploy the relocated image
 
-Modify the package repo (metrics-package-repo/packages/dora-metrics.tanzu.vmware/deployment-metrics.tanzu.vmware.1.0.0.yaml) to use the image reference that you defined above:
+```bash
+
+imgpkg describe -b <your registry>/deployment-metrics-repo:<tag from relocated bundle> --registry-ca-cert-path ~/Downloads/harbor.build.new.cer
+
+...
+
+- Image: harbor.build.h2o-2-18171.h2o.vmware.com/library/metrics@sha256:d42e451d73188d1d47c60dff6cf645b73b7cc470a6463fcae03aa7dfb9ab8b59  #<-- use this relocated image reference
+    Type: Image
+    Origin: index.docker.io/jaegertracing/all-in-one@sha256:d42e451d73188d1d47c60dff6cf645b73b7cc470a6463fcae03aa7dfb9ab8b59
+    Annotations:
+      kbld.carvel.dev/id: jaegertracing/all-in-one:latest
+      kbld.carvel.dev/origins: - resolved:
+          tag: latest
+          url: jaegertracing/all-in-one:latest
+
+```
+
+* Apply your package repo
 
 ```yaml
-
 ---
-apiVersion: data.packaging.carvel.dev/v1alpha1
-kind: Package
+
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageRepository
 metadata:
-  name: deployment-metrics.tanzu.vmware.1.0.0
+  name: deployment-metrics-package-repo
+  namespace: tkg-system
 spec:
-  refName: deployment-metrics.tanzu.vmware
-  version: 1.0.0
-  releaseNotes: |
-        Initial release of the simple app package
-  template:
-    spec:
-      fetch:
-      - imgpkgBundle:
-          image: harbor.build.h2o-2-18171.h2o.vmware.com/metrics/deployment-metrics:1.0.0 #<--- update this
-      template:
-      - ytt:
-          paths:
-          - "keptn/"
-          - "jaegar/"
-      - kbld:
-          paths:
-          - ".imgpkg/images.yml"
-          - "-"
-      deploy:
-      - kapp: {}
-
-```
-
-Run kbld to update the images.yml for package
-
-```bash
-
-#for self signed registry certs append --registry-ca-cert-path <your ca cert>
-
-kbld -f metrics-package-repo --imgpkg-lock-output metrics-package-repo/.imgpkg/images.yml
-
-```
-
-Push the repo to your registry
-
-```bash
-
-imgpkg push -b  <your registry>/metrics/deployment-metrics-package-repo:1.0.0 -f metrics-package-repo/
+  fetch:
+    imgpkgBundle:
+      image: <your registry>/deployment-metrics-repo:<tag from imgpkg push above>
 
 ```
 
 
+* Install the package
 
-Modify the image reference and apply the package repository to your cluster (install/install.yaml)
+If you are airgapped include the overlay annotation in the PackageInstall and apply the overlay/data secret allong with the packageinstall.  
+If you have internet connectivity remove the annotation from the package install and skip applying the secrets.
 
 ```yaml
 
 ---
 apiVersion: packaging.carvel.dev/v1alpha1
-kind: PackageRepository
+kind: PackageInstall
 metadata:
-  name: deployment-metrics-package-repo
+  name: metrics
+  namespace: tkg-system
+  annotations:
+    ext.packaging.carvel.dev/ytt-paths-from-secret-name.0: jaegar-image-overlay
 spec:
-  fetch:
-    imgpkgBundle:
-      image: harbor.build.h2o-2-18171.h2o.vmware.com/metrics/deployment-metrics-package-repo:1.0.0 #<--- update this
-
-```
-
-
-Apply the package install in your cluster
-
-```yaml
-
-kubectl apply -f install/install.yaml
+  serviceAccountName: default-ns-sa
+  packageRef:
+    refName: deployment-metrics.tanzu.vmware
+    versionSelection:
+      constraints: 1.0.0
+      prereleases: {}
+  values:
+  - secretRef:
+      name: metrics-values
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: jaegar-image-overlay
+  namespace: tkg-system
+stringData:
+  add-ns-label.yml: |
+    #@ load("@ytt:data", "data")
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"kind":"Jaeger"}),expects="1+"
+    ---
+    spec:
+      #@overlay/match missing_ok=True
+      allInOne:
+        #@overlay/match missing_ok=True
+        image: #@ data.values.jaegar_image
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: metrics-values
+  namespace: tkg-system
+stringData:
+  values.yml: |
+    ---
+    jaegar_image: harbor.build.h2o-2-18171.h2o.vmware.com/library/metrics@sha256:d42e451d73188d1d47c60dff6cf645b73b7cc470a6463fcae03aa7dfb9ab8b59
 
 ```
 
