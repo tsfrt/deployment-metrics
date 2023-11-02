@@ -5,3 +5,5 @@ metadata:
   namespace: lifecycle-metrics
 spec:
   strategy: allInOne
+  allInOne:
+    image: jaegertracing/all-in-one:latest
