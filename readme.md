@@ -199,3 +199,4 @@ app.kubernetes.io/part-of: myAwesomeAppName
 
 ```
 
+![Dashboard](docs/dashboard.png)
